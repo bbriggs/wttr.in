@@ -129,7 +129,7 @@ def save_weather_data( location, filename ):
     else:
         location_not_found = False
     
-    p = Popen( [ WEGO, '--city=%s' % location ], stdout=PIPE, stderr=PIPE )
+    p = Popen( [ WEGO, '--location=%s' % location ], stdout=PIPE, stderr=PIPE )
     stdout, stderr = p.communicate()
     if p.returncode != 0:
         error( stdout + stderr )
