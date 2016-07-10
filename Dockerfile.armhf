@@ -43,11 +43,6 @@ RUN apk --no-cache add --virtual build-deps \
 	mkdir -p "$GOPATH" &&\
 	go get -v github.com/schachmat/wego &&\
 \
-	archive=$(ls *.tar.gz) &&\
-	tar xzf "${archive}" &&\
-	rm "${archive}" &&\
-	mv */* . &&\
-	rmdir wttr*/ &&\
 	pip install -r requirements.txt &&\
 \
 	mkdir -p /etc/geolite2/ &&\
