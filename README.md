@@ -22,12 +22,6 @@ based on your IP address.
     $ curl wttr.in/London
     $ curl wttr.in/Moscow
 
-You can use 3-letters airport codes if you want to get the weather information
-about some airports:
-
-    $ curl wttr.in/muc      # Weather for IATA: muc, Munich International Airport, Germany
-    $ curl wttr.in/ham      # Weather for IATA: ham, Hamburg Airport, Germany
-
 You can also use IP-addresses (direct) or domain names (prefixed with @)
 as a location specificator:
 
