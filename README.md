@@ -16,7 +16,7 @@ You can access the service from a shell or from a Web browser:
 
 
 You can specify the location, for that you want to get the weather information.
-If you omit the location name, you will get the information for you current location,
+If you omit the location name, you will get the information for your current location,
 based on your IP address.
 
     $ curl wttr.in/London
