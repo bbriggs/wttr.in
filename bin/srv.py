@@ -128,8 +128,11 @@ def save_weather_data( location, filename ):
         location = DEFAULT_LOCATION
     else:
         location_not_found = False
+
+    # resolve location to coordinates
+    details = geolocator.geocode( location )
     
-    p = Popen( [ WEGO, '--location=%s' % location ], stdout=PIPE, stderr=PIPE )
+    p = Popen( [ WEGO, '--location=%f,%f' % ( details.latitude, details.longitude ) ], stdout=PIPE, stderr=PIPE )
     stdout, stderr = p.communicate()
     if p.returncode != 0:
         error( stdout + stderr )
