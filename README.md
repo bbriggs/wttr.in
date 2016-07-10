@@ -44,7 +44,7 @@ To install the program you need:
 
 1. Install external dependencies
 2. Install python dependencies used by the service
-3. Get WorldWeatherOnline API Key
+3. Get Forecast API Key
 4. Configure wego
 5. Configure wttr.in
 6. Configure HTTP-frontend service
@@ -57,8 +57,7 @@ External requirements:
 
 To install `wego` you must have golang installed. After that:
 
-    go get https://github.com/schachmat/wego
-    go install https://github.com/schachmat/wego
+    go get github.com/schachmat/wego
 
 ### Install python dependencies
 
@@ -70,7 +69,9 @@ Python requirements:
 * requests
 * gevent
 
-You can install them using `pip`. 
+You can install them using `pip` with this command:
+
+    pip install -r requirements.txt`
 
 If `virtualenv` is used:
 
@@ -81,26 +82,21 @@ If `virtualenv` is used:
 Also, you need to install the geoip2 database.
 You can use a free database GeoLite2, that can be downloaded from http://dev.maxmind.com/geoip/geoip2/geolite2/
 
-### Get WorldWeatherOnline key
+### Get Forecast key
 
-To get the WorldWeatherOnline API key, you must register here:
+To get the Forecast API key, you must register here:
  
-    https://developer.worldweatheronline.com/auth/register
+    https://developer.forecast.io/
 
 ### Configure wego
 
 After you have the key, configure `wego`:
 
     $ cat ~/.wegorc 
-    {
-        "APIKey": "00XXXXXXXXXXXXXXXXXXXXXXXXXXX",
-        "City": "London",
-        "Numdays": 3,
-        "Imperial": false,
-        "Lang": "en"
-    }
+    backend=forecast.io
+    forecast-api-key=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-The `City` parameter in `~/.wegorc` is ignored.
+These are the only configuration values that need to be provided, the rest will be filled out by wego automatically.
 
 ### Configure wttr.in
 
@@ -110,7 +106,6 @@ installation, to the GeoLite database and to the `wego` installation. For exampl
     WTTR_MYDIR = "/home/igor/wttr.in"
     WTTR_GEOLITE = "/home/igor/wttr.in/GeoLite2-City.mmdb"
     WTTR_WEGO = "/home/igor/go/bin/wego"
-
 
 ### Configure HTTP-frontend service
 
@@ -122,9 +117,6 @@ to access the service (if you want to use a web frontend; it's recommended):
         server_name  wttr.in *.wttr.in;
         access_log  /var/log/nginx/wttr.in-access.log  main;
         error_log  /var/log/nginx/wttr.in-error.log;
-
-        location /clouds_files { root /var/www/igor/; }
-        location /clouds_images { root /var/www/igor/; }
 
         location / {
             proxy_pass         http://127.0.0.1:8002;
