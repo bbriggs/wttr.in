@@ -57,6 +57,7 @@ To install `wego` you must have golang installed. After that:
 
 Python requirements:
 
+* ansi2html
 * Flask
 * geoip2
 * geopy
