@@ -51,6 +51,8 @@ logging.basicConfig(filename=LOG_FILE, level=logging.DEBUG)
 reader = geoip2.database.Reader(GEOLITE)
 geolocator = Nominatim()
 
+reHeaderLine = re.compile( r"^Weather for (\-?[\d\.]+,\-?[\d\.]+)$", re.IGNORECASE | re.MULTILINE )
+
 my_loader = jinja2.ChoiceLoader([
     app.jinja_loader,
     jinja2.FileSystemLoader(TEMPLATES),
@@ -143,6 +145,9 @@ def save_weather_data( location, filename ):
     
     if location_not_found:
         stdout += NOT_FOUND_MESSAGE
+
+    # Make header more human-friendly since wego would only print the coordinates
+    stdout = reHeaderLine.sub( "Weather for %s" % details.address, stdout.decode( 'utf-8' ) ).encode( 'utf-8' )
 
     open( filename, 'w' ).write( stdout )
 
