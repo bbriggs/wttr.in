@@ -19,6 +19,8 @@ from gevent.monkey import patch_all
 from gevent.subprocess import Popen, PIPE, STDOUT
 patch_all()
 
+from ansi2html import Ansi2HTMLConverter
+
 from flask import Flask, request, render_template, send_from_directory
 app = Flask(__name__)
 
@@ -50,6 +52,7 @@ logging.basicConfig(filename=LOG_FILE, level=logging.DEBUG)
 
 reader = geoip2.database.Reader(GEOLITE)
 geolocator = Nominatim()
+ansiconv = Ansi2HTMLConverter()
 
 reHeaderLine = re.compile( r"^Weather for (\-?[\d\.]+,\-?[\d\.]+)$", re.IGNORECASE | re.MULTILINE )
 
@@ -153,12 +156,7 @@ def save_weather_data( location, filename ):
 
     open( filename, 'w' ).write( stdout )
 
-    p = Popen( [ "bash", ANSI2HTML, "--palette=solarized", "--bg=dark" ],  stdin=PIPE, stdout=PIPE, stderr=PIPE )
-    stdout, stderr = p.communicate( stdout )
-    if p.returncode != 0:
-        error( stdout + stderr )
-
-    open( filename+'.html', 'w' ).write( stdout )
+    open( filename+'.html', 'w' ).write( ansiconv.convert( stdout.decode( 'utf-8' ) ).encode( 'utf-8' ) )
 
 def get_filename( location ):
     location = location.replace('/', '_')

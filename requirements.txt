@@ -1,3 +1,4 @@
+ansi2html
 flask
 geoip2
 geopy
