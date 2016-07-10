@@ -18,12 +18,9 @@ CMD python bin/srv.py
 EXPOSE 8002
 
 RUN apk --no-cache add \
-	bash \
 	ca-certificates \
-	gawk \
 	py-pip \
 	python \
-	sed \
 	tzdata \
 	&&\
 \
